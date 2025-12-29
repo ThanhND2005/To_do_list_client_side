@@ -1,8 +1,9 @@
+
 import { Request,Response,NextFunction } from 'express';
 import express from 'express';
 const route = express.Router();
-import getAccount from '~/services/userService';
+import userService from '~/services/userService';
 
-route.get('/',getAccount)
+route.get('/',userService.getAccount)
 
 export default route;
