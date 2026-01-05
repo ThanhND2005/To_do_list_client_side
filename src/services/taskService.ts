@@ -1,10 +1,11 @@
 import { Request,Response } from "express";
 import pool from '../config/database';
 import 'express-session';
+import { log } from "console";
 
 declare module 'express-session' {
   interface SessionData {
-    user: any; // Hoặc thay 'any' bằng kiểu dữ liệu User của bạn (ví dụ: IUser)
+    user: any; 
   }
 }
 
@@ -17,7 +18,16 @@ const createTask  = async (req : Request, res : Response)=>{
     res.status(500).send(error);
   }
 }
-
+const deleteTask = async (req : Request , res : Response) => {
+  try {
+    const ex1 = await pool.query('DELETE FROM task WHERE idtask=$1',[req.body.idtask]);
+    res.status(200).json(ex1.rows[0]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+}
 export default {
   createTask : createTask,
+  deleteTask : deleteTask
 }
